@@ -11,8 +11,28 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock-api-mockito.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock-api-mockito.version}</version>
+		</dependency>
 	</dependencies>
+	<properties>
+		<mockito.version>1.10.19</mockito.version>
+		<junit.version>4.12</junit.version>
+		<powermock-api-mockito.version>1.6.6</powermock-api-mockito.version>
+	</properties>
 </project>

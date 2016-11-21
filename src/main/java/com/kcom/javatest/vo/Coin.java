@@ -1,4 +1,4 @@
-package com.kcom.javatest;
+package com.kcom.javatest.vo;
 
 /**
  * This class is used as a value object that represent a bank of a denomination of coin
