@@ -33,13 +33,10 @@ below:
 mvn test
 ```
 
-## Queries or Concerns
-Please contact rishi_gogia@hotmail.com in case of any queries or concerns
-
-
 ## More that could be implemented
 Logger functionality could be implemented in the application, but looking at the time involved in setting up the logging
 framework, this was not done at the moment. There are no println statements, thus the application doesn't output anything.
 However, there are some comments and javadocs available to understand the functionality and test cases implemented.
 
-
+## Queries or Concerns
+Please contact rishi_gogia@hotmail.com in case of any queries or concerns
