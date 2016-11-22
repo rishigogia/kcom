@@ -8,6 +8,7 @@ pence used are:
 * 5
 * 2
 * 1
+
 All the change dispensed is in above denominations
 
 ## Downloading the application
@@ -18,7 +19,7 @@ https://github.com/rishigogia/kcom
 This is a java based app used to dispense the optimal number of coins of various denominations
 
 ## Running the application
-The application is just the implementation of asked functions. There are some JUnit test cases written in order to test
+There are some JUnit test cases written in order to test
 the functionality of the application, however it doesn't output anything.
 Following assumptions are made in order to execute this:
 * Java 7 is installed and JAVA_HOME and classpaths are set accordingly
@@ -31,6 +32,19 @@ Although the above will execute the test cases by itself, however, the test case
 below:
 ```
 mvn test
+```
+To execute the application, please go to the project home directory and use below command:
+```
+<JAVA_HOME\bin>\java com.kcom.javatest.CoinChanger <pence (an integer)> [<file path>]
+```
+where the file path is an optional parameter. As an example, you can use below:
+1. Single param
+```
+java com.kcom.javatest.CoinChanger 135
+```
+2. Two params
+```
+java com.kcom.javatest.CoinChanger 135 src/main/resources/coin.properties
 ```
 
 ## More that could be implemented
