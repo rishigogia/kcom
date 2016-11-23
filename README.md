@@ -38,19 +38,14 @@ To execute the application, please go to the project home directory and use belo
 <JAVA_HOME\bin>\java com.kcom.javatest.CoinChanger <pence (an integer)> [<file path>]
 ```
 where the file path is an optional parameter. As an example, you can use below:
-1. Single param
+* Single param
 ```
 java com.kcom.javatest.CoinChanger 135
 ```
-2. Two params
+* Two params
 ```
 java com.kcom.javatest.CoinChanger 135 src/main/resources/coin.properties
 ```
-
-## More that could be implemented
-Logger functionality could be implemented in the application, but looking at the time involved in setting up the logging
-framework, this was not done at the moment. There are no println statements, thus the application doesn't output anything.
-However, there are some comments and javadocs available to understand the functionality and test cases implemented.
 
 ## Queries or Concerns
 Please contact rishi_gogia@hotmail.com in case of any queries or concerns

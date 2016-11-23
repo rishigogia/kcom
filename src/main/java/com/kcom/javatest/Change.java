@@ -3,6 +3,8 @@ package com.kcom.javatest;
 import com.kcom.javatest.exception.ChangeNotGivenException;
 import com.kcom.javatest.utils.FileOperations;
 import com.kcom.javatest.vo.Coin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +18,7 @@ import java.util.Properties;
  */
 public class Change {
 
+	private static final Logger logger = LoggerFactory.getLogger(Change.class);
 	private static final int[] denominations = {100, 50, 20, 10, 5, 2, 1};
 
 	/**
@@ -27,6 +30,7 @@ public class Change {
 	public Collection<Coin> getOptimalChange(int pence)
 			throws ChangeNotGivenException {
 		// null indicates lack of properties file input, which in turn means an unlimited supply of coins
+		logger.debug("Inside getOptimalChage, calling getCoins method with " + pence + " pence to be changed");
 		return getCoins(pence, null);
 	}
 
@@ -41,14 +45,22 @@ public class Change {
 	public Collection<Coin> getChangeFor(int pence, String propsFileName)
 			throws ChangeNotGivenException {
 
+		logger.debug("Inside getOptimalChage, calling getCoins method with " + pence + " pence to be changed");
+		logger.debug("the properties file " + propsFileName + " will be limiting the amount of coins");
+
 		// Load the coins in bank from properties file
 		Properties properties = FileOperations.loadPropertiesFromPropertiesFile(propsFileName);
+		logger.debug("Coins loaded successfully from the properties file");
+
 		// Get the change coins
 		Collection<Coin> coinsCollection = getCoins(pence, properties);
+		logger.debug("Change acquired successfully");
+
 		// update properties object with returned number of coins in change
 		updateProperties(properties, coinsCollection);
 		// write back the properties object into the file
 		FileOperations.savePropertiesToPropertiesFile(propsFileName, properties);
+		logger.debug("coins from the properties file reduced successfully");
 
 		return coinsCollection;
 	}
@@ -67,11 +79,14 @@ public class Change {
 	private Collection<Coin> getCoins(int pence, Properties properties) throws ChangeNotGivenException {
 		List<Coin> coinsList = new ArrayList<Coin>();
 
+		logger.debug("inside getCoins to change " + pence + " pence");
+		logger.debug(properties == null ? "no properties file used" : "max coins acquired from properties");
 		try {
 			for (int coinDenomination: denominations) {
 				// if the number of pennies passed are 0 or -ve, or during the loop the amount becomes 0
 				// then break out of the loop.
 				if (pence <= 0) {
+					logger.debug("No change given, 0 or less amount provided");
 					break;
 				}
 				// process the entered pence and add to the coins collection
@@ -81,6 +96,7 @@ public class Change {
 				// coins are limited and should be checked if there are coins present in the denomination, then
 				// only deducted.
 				if(properties != null) {
+					logger.debug("checking how many coins for denomination " + coinDenomination + " present");
 					int numberOfCoinsInBank = Integer.parseInt(properties.getProperty(String.valueOf(coinDenomination)));
 					if(numberOfCoins > numberOfCoinsInBank) {
 						numberOfCoins = numberOfCoinsInBank;
@@ -88,6 +104,7 @@ public class Change {
 				}
 
 				// if the number of coins of the denomination needs to be deducted, then only to deduct from them
+				logger.debug("determine the optimal number of coins for " + coinDenomination);
 				if (numberOfCoins > 0) {
 					Coin coin = new Coin();
 					coin.setDenomination(coinDenomination);
@@ -99,10 +116,12 @@ public class Change {
 			// If the amount is still left after taking away from all the denominations, this means there are not
 			// enough coins available in the bank
 			if(pence > 0) {
+				logger.error("not enough coins present to cater for given amount");
 				throw new ChangeNotGivenException("not enough amount");
 			}
 			return coinsList;
 		} catch(NumberFormatException nfe) {
+			logger.error("Some exception occurred parsing the amount of coins from the properties file");
 			// this is to check for any issues encountered while changing numbers from Strings in the file
 			throw new ChangeNotGivenException("some exception occurred", nfe);
 		}
@@ -117,6 +136,7 @@ public class Change {
 	 */
 	private void updateProperties(Properties properties, Collection<Coin> coinCollection) {
 		for(Coin coin: coinCollection) {
+			logger.debug("updating the properties file, reducing the coins from the bank");
 			int numberOfCoinsInProperties =
 					Integer.parseInt(properties.getProperty(String.valueOf(coin.getDenomination())));
 			int numberOfCoinsToSet = numberOfCoinsInProperties - coin.getNumberOfCoins();
